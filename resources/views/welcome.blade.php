@@ -61,6 +61,13 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
                         </li>
+
+                        {{-- Show Admin Panel link only to admins --}}
+                        @if(Auth::user()->role === 'admin')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin Panel</a>
+                            </li>
+                        @endif
                     @endauth
                 </ul>
                 
@@ -90,6 +97,15 @@
 
     <!-- Main Content Container -->
     <div class="container my-5">
+
+        {{-- Show error message if redirected by AdminMiddleware --}}
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <!-- Hero Section -->
         <div class="hero-section text-center">
             <h1 class="display-4 fw-bold mb-3">Welcome to Laravel Ecommerce</h1>
@@ -98,6 +114,9 @@
             <div class="d-flex justify-content-center gap-3">
                 @auth
                     <a href="{{ route('dashboard') }}" class="btn btn-light btn-lg px-4 text-primary fw-semibold shadow-sm">Go to Dashboard</a>
+                    @if(Auth::user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}" class="btn btn-warning btn-lg px-4 fw-semibold shadow-sm">Admin Panel</a>
+                    @endif
                     <a href="{{ route('profile.edit') }}" class="btn btn-outline-light btn-lg px-4 shadow-sm">Manage Profile</a>
                 @else
                     <a href="{{ route('login') }}" class="btn btn-light btn-lg px-4 text-primary fw-semibold shadow-sm">Get Started</a>

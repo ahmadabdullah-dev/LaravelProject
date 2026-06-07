@@ -20,6 +20,15 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </li>
+
+                {{-- Only show Admin Panel link if the user is an admin --}}
+                @if(Auth::user()->role === 'admin')
+                    <li class="nav-item">
+                        <x-nav-link :active="request()->routeIs('admin.dashboard')" :href="route('admin.dashboard')">
+                            {{ __('Admin Panel') }}
+                        </x-nav-link>
+                    </li>
+                @endif
             </ul>
 
             <!-- Right Side -->

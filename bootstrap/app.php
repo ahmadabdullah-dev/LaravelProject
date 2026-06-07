@@ -15,6 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
             guests: '/login',
             users: '/'
         );
+
+        // Register the admin middleware alias
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
