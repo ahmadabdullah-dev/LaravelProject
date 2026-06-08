@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 // Home page - accessible by everyone
@@ -29,6 +30,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Category management
     Route::resource('categories', CategoryController::class);
+
+    // Product management
+    Route::resource('products', ProductController::class);
 });
 
 require __DIR__.'/auth.php';
