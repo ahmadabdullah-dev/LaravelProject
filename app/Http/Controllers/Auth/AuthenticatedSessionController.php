@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Display the login view.
+     * Show the login form.
      */
     public function create(): View
     {
@@ -20,28 +20,40 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Handle an incoming authentication request.
+     * Handle the login form submission.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        $request->authenticate();
+        // Simple validation
+        $request->validate([
+            'email'    => ['required', 'email'],
+            'password' => ['required', 'string'],
+        ]);
 
+        // Attempt to log the user in
+        if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            throw ValidationException::withMessages([
+                'email' => 'The email or password is incorrect.',
+            ]);
+        }
+
+        // Regenerate session to prevent session fixation
         $request->session()->regenerate();
 
-        return redirect()->intended(route('home'));
+        // Redirect to home page
+        return redirect()->route('home');
     }
 
     /**
-     * Destroy an authenticated session.
+     * Log the user out.
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+        Auth::logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('home');
     }
 }
