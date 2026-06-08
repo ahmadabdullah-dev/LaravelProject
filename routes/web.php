@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
+
+    // Category management
+    Route::resource('categories', CategoryController::class);
 });
 
 require __DIR__.'/auth.php';
