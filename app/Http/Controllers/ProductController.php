@@ -8,7 +8,21 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // List all products
+    // Customer: List all products (home page)
+    public function home()
+    {
+        $products = Product::with('category')->paginate(12);
+        return view('home', compact('products'));
+    }
+
+    // Customer: Show product details
+    public function show(Product $product)
+    {
+        $product = Product::with('category')->findOrFail($product->id);
+        return view('products.show', compact('product'));
+    }
+
+    // Admin: List all products
     public function index()
     {
         $products = Product::with('category')->get();

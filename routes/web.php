@@ -5,10 +5,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
-// Home page - accessible by everyone
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+// Home page - accessible by everyone (shows all products)
+Route::get('/', [ProductController::class, 'home'])->name('home');
+
+// Product details page - accessible by everyone
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 // Dashboard - only accessible by logged-in users
 Route::get('/dashboard', function () {
@@ -31,8 +32,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Category management
     Route::resource('categories', CategoryController::class);
 
-    // Product management
-    Route::resource('products', ProductController::class);
+    // Product management (except show - which is public)
+    Route::resource('products', ProductController::class)->except(['show']);
 });
 
 require __DIR__.'/auth.php';
