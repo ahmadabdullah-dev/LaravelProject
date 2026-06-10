@@ -63,6 +63,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cart.view') }}">Cart</a>
+                        </li>
 
                         @if(Auth::user()->role === 'admin')
                             <li class="nav-item">
@@ -147,12 +150,18 @@
                         </div>
 
                         <!-- Add to Cart Button -->
-                        <form action="#" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="btn btn-primary btn-lg px-5" @if($product->stock <= 0) disabled @endif>
-                                Add to Cart
-                            </button>
-                        </form>
+                        @auth
+                            <form action="{{ route('cart.add') }}" method="POST" class="d-inline">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="btn btn-primary btn-lg px-5" @if($product->stock <= 0) disabled @endif>
+                                    Add to Cart
+                                </button>
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}" class="btn btn-primary btn-lg px-5">Login to Add to Cart</a>
+                        @endauth
                     </div>
                 </div>
             </div>
