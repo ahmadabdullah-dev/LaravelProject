@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(php *)"
+      "Bash(php artisan *)",
+      "Bash(php -l app/Http/Controllers/OrderController.php)",
+      "Bash(php -l app/Models/Order.php)",
+      "Bash(php -l app/Models/OrderItem.php)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:8000/)"
     ]
   }
 }

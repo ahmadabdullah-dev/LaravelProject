@@ -58,6 +58,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cart.view') }}">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('orders.history') }}">My Orders</a>
+                        </li>
 
                         @if(Auth::user()->role === 'admin')
                             <li class="nav-item">
@@ -191,7 +197,10 @@
                                 <span class="fs-5">Total Price:</span>
                                 <span class="fs-5 text-success fw-bold">${{ number_format($cart->getTotalPrice(), 2) }}</span>
                             </div>
-                            <button class="btn btn-primary w-100">Proceed to Checkout</button>
+                            <form action="{{ route('orders.checkout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary w-100">Proceed to Checkout</button>
+                            </form>
                         </div>
                     </div>
                 </div>
