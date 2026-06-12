@@ -40,13 +40,15 @@
                 <div class="card-body">
                     <ul class="list-unstyled mb-0">
                         <li class="mb-2">
-                            <a href="{{ route('categories.index') }}">📁 Manage Categories</a>
+                            <a href="{{ route('categories.index') }}">Manage Categories</a>
                         </li>
-                        <li class="mb-2">📦 Manage Products</li>
-                        <li class="mb-2">👥 Manage Users</li>
-                        <li class="mb-2">🧾 View Orders</li>
+                        <li class="mb-2">
+                            <a href="{{ route('products.index') }}">Manage Products</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{{ route('admin.orders.index') }}">Manage Orders</a>
+                        </li>
                     </ul>
-                    <small class="text-muted">(Coming soon)</small>
                 </div>
             </div>
         </div>
